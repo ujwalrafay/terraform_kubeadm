@@ -52,7 +52,7 @@ resource "aws_lb_target_group" "control-plane" {
   name     = "control-plane"
   port     = 6443
   protocol = "TCP"
-  vpc_id   = aws_vpc.main.id
+  vpc_id   = aws_vpc.uj-managed-vpc-terraform.id
 }
 # resource "aws_elb" "api-k8s-local" {
 #   name = "api-${var.cluster_name}"

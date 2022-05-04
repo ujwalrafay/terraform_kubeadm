@@ -2,7 +2,7 @@ data "aws_availability_zones" "available" {
   state = "available"
 }
 resource "aws_subnet" "private01" {
-  vpc_id                  = aws_vpc.main.id
+  vpc_id                  = aws_vpc.uj-managed-vpc-terraform.id
   map_public_ip_on_launch = false
   cidr_block              = cidrsubnet(var.vpc_cidr_block, 8, var.private_subnet01_netnum)
   availability_zone       = element(data.aws_availability_zones.available.names, 0)
@@ -13,7 +13,7 @@ resource "aws_subnet" "private01" {
   }
 }
 resource "aws_subnet" "public01" {
-  vpc_id                  = aws_vpc.main.id
+  vpc_id                  = aws_vpc.uj-managed-vpc-terraform.id
   cidr_block              = cidrsubnet(var.vpc_cidr_block, 8, var.public_subnet01_netnum)
   availability_zone       = element(data.aws_availability_zones.available.names, 0)
   map_public_ip_on_launch = true
@@ -24,22 +24,22 @@ resource "aws_subnet" "public01" {
   }
 }
 resource "aws_subnet" "utility" {
-  vpc_id                  = aws_vpc.main.id
+  vpc_id                  = aws_vpc.uj-managed-vpc-terraform.id
   map_public_ip_on_launch = true
-  cidr_block              = cidrsubnet(aws_vpc.main.cidr_block, 8, 253)
+  cidr_block              = cidrsubnet(aws_vpc.uj-managed-vpc-terraform.cidr_block, 8, 253)
   availability_zone       = element(data.aws_availability_zones.available.names, 1)
   tags = {
     Name = "utility"
   }
 }
 resource "aws_route_table" "private_rt" {
-  vpc_id = aws_vpc.main.id
+  vpc_id = aws_vpc.uj-managed-vpc-terraform.id
 }
 resource "aws_route_table" "public_rt" {
-  vpc_id = aws_vpc.main.id
+  vpc_id = aws_vpc.uj-managed-vpc-terraform.id
 }
 resource "aws_internet_gateway" "igw" {
-  vpc_id = aws_vpc.main.id
+  vpc_id = aws_vpc.uj-managed-vpc-terraform.id
 }
 resource "aws_eip" "eip" {
   vpc = true

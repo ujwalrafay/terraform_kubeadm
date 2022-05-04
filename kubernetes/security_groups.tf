@@ -1,6 +1,6 @@
 # resource "aws_security_group" "api-elb-k8s-local" {
 #   name        = "api-elb.${var.cluster_name}.k8s.local"
-#   vpc_id      = aws_vpc.main.id
+#   vpc_id      = aws_vpc.uj-managed-vpc-terraform.id
 #   description = "Security group for api ELB"
 #   ingress {
 #     from_port   = 6443
@@ -28,7 +28,7 @@
 resource "aws_security_group" "bastion_node" {
   name        = "bastion_node"
   description = "Allow required traffic to the bastion node"
-  vpc_id      = aws_vpc.main.id
+  vpc_id      = aws_vpc.uj-managed-vpc-terraform.id
 
   ingress {
     description = "SSH from outside"
@@ -52,12 +52,12 @@ resource "aws_security_group" "bastion_node" {
 resource "aws_security_group" "k8s_worker_nodes" {
   name        = "k8s_workers_${var.cluster_name}"
   description = "Worker nodes security group"
-  vpc_id      = aws_vpc.main.id
+  vpc_id      = aws_vpc.uj-managed-vpc-terraform.id
   ingress {
     from_port   = 0
     protocol    = "-1"
     to_port     = 0
-    cidr_blocks = [aws_vpc.main.cidr_block]
+    cidr_blocks = [aws_vpc.uj-managed-vpc-terraform.cidr_block]
   }
   egress {
     from_port   = 0
@@ -74,7 +74,7 @@ resource "aws_security_group" "k8s_worker_nodes" {
 resource "aws_security_group" "k8s_master_nodes" {
   name        = "k8s_masters_${var.cluster_name}"
   description = "Master nodes security group"
-  vpc_id      = aws_vpc.main.id
+  vpc_id      = aws_vpc.uj-managed-vpc-terraform.id
   tags = {
     Name                                        = "${var.cluster_name}_nodes"
     "kubernetes.io/cluster/${var.cluster_name}" = "owned"
