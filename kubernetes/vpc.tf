@@ -14,6 +14,6 @@ resource "aws_vpc_dhcp_options" "dhcpos" {
   map_public_ip_on_launch = "true" //it makes this a public subnet
   availability_zone       = "us-west-2a"
   tags = {
-    Name = "prod-subnet-public-1"
+    Name = "ujwal-subnet-public-1"
   }
 }
